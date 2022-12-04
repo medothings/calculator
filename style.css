@@ -1,11 +1,12 @@
 * {
     padding: 0;
     border-radius: 10px;
+    /* border: 1px red solid; */
 }
 
 body {
     background-image: url('https://images.unsplash.com/photo-1518655048521-f130df041f66?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80');
-    background-size: 100% auto;
+    background-size: cover;
     height: 100vh;
     display: flex;
     align-items: center;
@@ -38,7 +39,10 @@ body {
 }
 
 #display {
-    margin: 8px;
+    margin: 10px;
+    max-width: 310px;
+    height: 90px;
+    flex-wrap: wrap;
 }
 
 .clear {
@@ -69,5 +73,12 @@ body {
     font-size: 1.5rem;
     margin: 10px;
     background-color: rgba(250, 200, 140, 0.8);
+}
+
+#equal {
+    font-size: 1.5rem;
+    margin: 10px;
+    background-color: rgba(250, 200, 140, 0.8);
+
 }
 

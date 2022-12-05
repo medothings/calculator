@@ -5,10 +5,12 @@ const plus = document.querySelector("#plus");
 const minus = document.querySelector("#minus");
 const time = document.querySelector("#times");
 const divide = document.querySelector("#divide");
+const decimalEl = document.querySelector("#decimal");
 const equal = document.querySelector("#equal");
 const clear = document.querySelector("#clear");
 const text = document.querySelector("#display");
 const deleteEl = document.querySelector("#delete");
+const zero = document.querySelector("#zero");
 
 let a = undefined;
 let b = undefined;
@@ -17,14 +19,33 @@ let state = "waitForA";
 let operate;
 let result;
 let op;
+let decimal = true;
 console.log("operate", operate);
-// setAB();
+
+equal.addEventListener("click", () => {
+  console.log(state);
+  if (state === "waitForA") {
+    a = +input;
+    text.innerText = a;
+    console.log("a:", a);
+  } else {
+    b = +input;
+    console.log("b", b);
+    state = "waitForA";
+    calculate();
+    input = "";
+  }
+});
 
 opEls.forEach((op) => {
   op.addEventListener("click", () => {
     console.log("op", op.innerText);
     console.log("operate", operate);
-    if (state === "waitForA") {
+    if (text.innerText === result) {
+      a = +result;
+      console.log("typeof result", typeof(result));
+      state = "waitForB";
+    } else if (state === "waitForA") {
       a = +input;
       operate = op.innerText;
       console.log(operate);
@@ -46,6 +67,10 @@ numEls.forEach((num) => {
     input = input + num.innerText;
     console.log("input", input);
     text.innerText = input;
+    if (text.innerText === result) {
+      input = "";
+      text.innerText = input;
+    }
   });
 });
 
@@ -55,51 +80,10 @@ clear.addEventListener("click", () => {
 });
 
 deleteEl.addEventListener("click", () => {
-  input = input.substring(0, input.length - 1);
-  text.innerText = input;
-});
-
-equal.addEventListener("click", () => {
-  console.log(state);
-  if (state === "waitForA") {
-    a = +input;
-    text.innerText = a;
-    console.log("a:", a);
-  } else {
-    b = +input;
-    console.log("b", b);
-    state = "waitForA";
-    calculate();
-    input = "";
-  }
+  backspace();
 });
 
 function calculate() {
-  // if (operate === "+") {
-  //   console.log("a", a);
-  //   console.log("b", b);
-  //   console.log("typeof a", typeof a);
-  //   console.log("typeof b", typeof b);
-
-  //   result = a + b;
-  //   text.innerText = "";
-  //   text.innerText = result;
-  // }
-  // if (operate === "-") {
-  //   result = a - b;
-  //   text.innerText = "";
-  //   text.innerText = result;
-  // }
-  // if (operate === "*") {
-  //   result = a * b;
-  //   text.innerText = "";
-  //   text.innerText = result;
-  // }
-  // if (operate === "/") {
-  //   result = a / b;
-  //   text.innerText = "";
-  //   text.innerText = result;
-  // }
   switch (operate) {
     case "+":
       result = a + b;
@@ -128,66 +112,19 @@ function calculate() {
   console.log("result", result);
 }
 
-function setAB() {
-  plus.addEventListener("click", () => {
-    if (state === "waitForA") {
-      a = +input;
-      operate = "+";
-      console.log(operate);
-      console.log("a:", a);
-      input = "";
-      state = "waitForB";
-    } else {
-      b = +input;
-      operate = "plus";
-      console.log("b:", b);
-      state = "waitForA";
-    }
-  });
-  minus.addEventListener("click", () => {
-    if (state === "waitForA") {
-      a = +input;
-      operate = "-";
-      console.log(operate);
-      console.log("a:", a);
-      input = "";
-      state = "waitForB";
-    } else {
-      b = +input;
-      operate = "minus";
-      console.log("b:", b);
-      state = "waitForA";
-    }
-  });
-  time.addEventListener("click", () => {
-    if (state === "waitForA") {
-      a = +input;
-      operate = "*";
-      console.log(operate);
-      console.log("a:", a);
-      input = "";
-      state = "waitForB";
-    } else {
-      b = +input;
-      operate = "time";
-      console.log("b:", b);
-      state = "waitForA";
-    }
-  });
-  divide.addEventListener("click", () => {
-    if (state === "waitForA") {
-      a = +input;
-      operate = "/";
-      console.log(operate);
-      console.log("a:", a);
-      input = "";
-      state = "waitForB";
-    } else {
-      b = +input;
-      operate = "divide";
-      console.log("b:", b);
-      state = "waitForA";
-    }
-  });
-  
+zero.addEventListener("click", () => {
+  if (input === "") {
+    backspace();
+  }
+});
+
+decimalEl.addEventListener("click", () => {
+  if (input.includes("..")) {
+    backspace()
+  }
+});
+
+function backspace() {
+  input = input.substring(0, input.length - 1);
+  text.innerText = input;
 }

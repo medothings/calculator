@@ -1,12 +1,11 @@
 const numEls = document.querySelectorAll(".number");
-const btnEls = document.querySelectorAll(".button");
 const opEls = document.querySelectorAll(".operator");
-const plus = document.querySelector("#plus");
-const minus = document.querySelector("#minus");
-const time = document.querySelector("#times");
-const divide = document.querySelector("#divide");
+// const plus = document.querySelector("#plus");
+// const minus = document.querySelector("#minus");
+// const time = document.querySelector("#times");
+// const divide = document.querySelector("#divide");
 const decimalEl = document.querySelector("#decimal");
-const equal = document.querySelector("#equal");
+// const equal = document.querySelector("#equal");
 const clear = document.querySelector("#clear");
 const text = document.querySelector("#display");
 const deleteEl = document.querySelector("#delete");
@@ -22,41 +21,43 @@ let op;
 let decimal = true;
 console.log("operate", operate);
 
-equal.addEventListener("click", () => {
-  console.log(state);
-  if (state === "waitForA") {
-    a = +input;
-    text.innerText = a;
-    console.log("a:", a);
-  } else {
-    b = +input;
-    console.log("b", b);
-    state = "waitForA";
-    calculate();
-    input = "";
-  }
-});
+// equal.addEventListener("click", () => {
+//   console.log(state);
+//   if (state === "waitForA") {
+//     a = +input;
+//     text.innerText = a;
+//     console.log("a:", a);
+//   } else {
+//     b = +input;
+//     console.log("b", b);
+//     state = "waitForA";
+//     calculate();
+//     input = "";
+//   }
+// });
 
 opEls.forEach((op) => {
   op.addEventListener("click", () => {
     console.log("op", op.innerText);
     console.log("operate", operate);
-    if (text.innerText === result) {
-      a = +result;
-      console.log("typeof result", typeof(result));
-      state = "waitForB";
-    } else if (state === "waitForA") {
-      a = +input;
-      operate = op.innerText;
-      console.log(operate);
-      console.log("a:", a);
-      input = "";
-      state = "waitForB";
-    } else {
-      b = +input;
-      operate = op;
-      console.log("b:", b);
-      state = "waitForA";
+    switch (state) {
+      case "waitForA":
+        a = +input;
+        operate = op.innerText;
+        input = "";
+        state = "waitForB";
+        break;
+      case "waitForB":
+        b = +input;
+        calculate();
+        operate = op.innerText;
+        a = result
+        state = "waitForB"
+        input = "";
+        break;
+
+      default:
+        break;
     }
   });
 });
@@ -67,20 +68,36 @@ numEls.forEach((num) => {
     input = input + num.innerText;
     console.log("input", input);
     text.innerText = input;
-    if (text.innerText === result) {
-      input = "";
+    if (input === "0") {
+      console.log(num);
+      reset();
+      input = num.innerText;
       text.innerText = input;
+    }
+    if (text.innerText === result) {
+      reset();
     }
   });
 });
 
+zero.addEventListener("click", () => {
+  console.log("0");
+  if (input !== "0") {
+    input = input + "0";
+    text.innerText = input;
+  }
+});
+
 clear.addEventListener("click", () => {
-  input = "";
-  text.innerText = input;
+  reset();
 });
 
 deleteEl.addEventListener("click", () => {
   backspace();
+  if (input.includes(".")) {
+  } else {
+    decimal = true;
+  }
 });
 
 function calculate() {
@@ -91,7 +108,7 @@ function calculate() {
       text.innerText = result;
       break;
     case "-":
-      result = a - +b;
+      result = a - b;
       text.innerText = "";
       text.innerText = result;
       break;
@@ -112,15 +129,11 @@ function calculate() {
   console.log("result", result);
 }
 
-zero.addEventListener("click", () => {
-  if (input === "") {
-    backspace();
-  }
-});
-
 decimalEl.addEventListener("click", () => {
-  if (input.includes("..")) {
-    backspace()
+  if (decimal === true) {
+    input = input + ".";
+    text.innerText = input;
+    decimal = false;
   }
 });
 
@@ -128,3 +141,13 @@ function backspace() {
   input = input.substring(0, input.length - 1);
   text.innerText = input;
 }
+
+function reset() {
+  input = "";
+  text.innerText = input;
+  state = "waitForA";
+  decimal = true;
+}
+// if (input != "") {
+//   input = input + num
+// }

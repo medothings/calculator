@@ -26,7 +26,6 @@ body {
 }
 
 .button {
-    background-color: #fff;
     border: 2px rgb(63, 38, 2) solid;
     box-shadow: 2px 2px 4px rgba(0,0,0,0.4);
 }
@@ -67,18 +66,19 @@ body {
     background-color: rgb(250, 240, 230);
 }
 
+#zero {
+    font-size: 1.5rem;
+    margin: 10px;
+    background-color: rgb(250, 240, 230);
+}
+
+#decimal {
+    font-size: 1.5rem;
+    margin: 10px;
+    background-color: rgba(250, 200, 140, 0.8);
+}
 .operator {
-    /* width: 50px;
-    height: 50px; */
     font-size: 1.5rem;
     margin: 10px;
     background-color: rgba(250, 200, 140, 0.8);
 }
-
-#equal {
-    font-size: 1.5rem;
-    margin: 10px;
-    background-color: rgba(250, 200, 140, 0.8);
-
-}
-

@@ -1,9 +1,5 @@
 const numEls = document.querySelectorAll(".number");
 const opEls = document.querySelectorAll(".operator");
-// const plus = document.querySelector("#plus");
-// const minus = document.querySelector("#minus");
-// const time = document.querySelector("#times");
-// const divide = document.querySelector("#divide");
 const decimalEl = document.querySelector("#decimal");
 // const equal = document.querySelector("#equal");
 const clear = document.querySelector("#clear");
@@ -21,21 +17,6 @@ let op;
 let decimal = true;
 console.log("operate", operate);
 
-// equal.addEventListener("click", () => {
-//   console.log(state);
-//   if (state === "waitForA") {
-//     a = +input;
-//     text.innerText = a;
-//     console.log("a:", a);
-//   } else {
-//     b = +input;
-//     console.log("b", b);
-//     state = "waitForA";
-//     calculate();
-//     input = "";
-//   }
-// });
-
 opEls.forEach((op) => {
   op.addEventListener("click", () => {
     console.log("op", op.innerText);
@@ -50,6 +31,7 @@ opEls.forEach((op) => {
       case "waitForB":
         b = +input;
         calculate();
+        reset()
         operate = op.innerText;
         a = result
         state = "waitForB"
@@ -64,16 +46,14 @@ opEls.forEach((op) => {
 
 numEls.forEach((num) => {
   num.addEventListener("click", () => {
+    if (text.innerText === "0") {
+      console.log(num);
+      reset()
+    }
     console.log("num", num.innerText);
     input = input + num.innerText;
     console.log("input", input);
     text.innerText = input;
-    if (input === "0") {
-      console.log(num);
-      reset();
-      input = num.innerText;
-      text.innerText = input;
-    }
     if (text.innerText === result) {
       reset();
     }
